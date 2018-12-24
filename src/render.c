@@ -14,60 +14,47 @@
 
 int worldMap[MAPWIDTH][HEIGHT]=
 {
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+  {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
+  {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
+  {4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
+  {4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
+  {4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
+  {4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
+  {4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
+  {4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
+  {4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
+  {4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
+  {4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
+  {4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
+  {6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
+  {8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
+  {6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
+  {4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
+  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
+  {4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
+  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
+  {4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
+  {4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
+  {4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
+  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
+  {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
 };
 
-void	character(t_win *win, int posX, int posY)
-{
-	int i;
-
-	i = 10;
-	while (--i > 0)
-		((int *)win->img)[(posY * 5 - i) * WIDTH + (posX * 5)] = 0xFF0000;
-}
-
-void	draw_map(t_win *win, int posX, int posY)
+void	draw_map(t_win *win, int posY, int posX)
 {
 	int color;
 
 	for (int y = 0; y < MAPHEIGHT; y++)
 		for (int x = 0; x < MAPWIDTH; x++)
 		{
-			switch (worldMap[y][x])
-			{
-				case 1: color = ft_color_rgb(255, 0, 0); break;
-				case 2: color = ft_color_rgb(0, 255, 0); break;
-				case 3: color = ft_color_rgb(0, 0, 255); break;
-				case 0: color = ft_color_rgb(255, 255, 255); break;
-				default: color = ft_color_rgb(255, 255, 0); break;
-			}
-			if (x == posY && y == posY)
-				character(win, posX, posY);
+			if (worldMap[y][x] == 0)
+				color = ft_color_rgb(255, 255, 0);
 			else
-				((int *)win->img)[(y * 5) * WIDTH + (x * 5)] = color;
+				color = ft_color_rgb(255, 0, 0);
+			if (x == posX && y == posY)
+				((int *)win->img)[(y * 5) * WIDTH + (x * 5 + 600)] = 0x000000;
+			else
+				((int *)win->img)[(y * 5) * WIDTH + (x * 5 + 600)] = color;
 		}
 
 }
@@ -81,7 +68,6 @@ void	render(t_win *win)
 	double time = 0;
 	double oldTime = 0;
 
-	draw_map(win, win->posX, win->posY); // mini-map
 	for (int x = 0;x < WIDTH; x++)
 	{
 		double cameraX = 2 * x / (double)WIDTH - 1;
@@ -152,21 +138,36 @@ void	render(t_win *win)
 		int drawEnd = lineHeight / 2 + HEIGHT / 2;
 		if (drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
-
-		switch (worldMap[mapX][mapY])
+		int texNum = worldMap[mapX][mapY] - 1;
+		double wallX;
+		if (side == 0)
+			wallX = posY + perpWallDist * rayDirY;
+		else
+			wallX = posX + perpWallDist * rayDirX;
+		wallX -= floor(wallX);
+		int texX = (int)(wallX * (double)TEXWIDTH);
+		if (side == 0 && rayDirX > 0)
+			texX = TEXWIDTH - texX - 1;
+		if (side == 1 && rayDirY < 0)
+			texX = TEXWIDTH - texX - 1;
+		for (int y = drawStart; y < drawEnd; y++)
 		{
-			case 1: win->color = side == 1 ? ft_color_rgb(130, 0, 0) : ft_color_rgb(255, 0, 0); break;
-			case 2: win->color = side == 1 ? ft_color_rgb(0, 130, 0) : ft_color_rgb(0, 255, 0); break;
-			case 3: win->color = side == 1 ? ft_color_rgb(0, 0, 130) : ft_color_rgb(0, 0, 255); break;
-			case 0: win->color = side == 1 ? ft_color_rgb(130, 130, 130) : ft_color_rgb(255, 255, 255); break;
-			default: win->color = side == 1 ? ft_color_rgb(130, 130, 0) : ft_color_rgb(255, 255, 0); break;
+			int d = y * 256 - HEIGHT * 128 + lineHeight * 128;
+			int texY = ((d * TEXHEIGHT) / lineHeight) / 256;
+			t_uint color = (win->texture)[texNum][TEXHEIGHT * texY + texX];
+			if (side == 1)
+				color = (color >> 1) & 8355711;
+			((int *)win->img)[y * WIDTH + x] = color;
 		}
-//		if (side == 1) // different colors for different sides
-//			color = color / 2;
-
-		line(ft_new_intvec2(x, drawStart) , ft_new_intvec2(x, drawEnd), win);
-
+		if (drawEnd < HEIGHT)
+		{
+			for (int y = drawEnd; y < HEIGHT; y++)
+			{
+				((int *)win->img)[y * WIDTH + x] = 0x808080;
+			}
+		}
 	}
+	draw_map(win, win->posX, win->posY); // minimap
 	mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->img_ptr, 0, 0);
 	clear_img(win);
 }

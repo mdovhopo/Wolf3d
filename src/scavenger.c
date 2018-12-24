@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*   scavenger.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/29 15:35:57 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/10/29 16:39:48 by mdovhopo         ###   ########.fr       */
+/*   Created: 2018/12/24 17:25:37 by mdovhopo          #+#    #+#             */
+/*   Updated: 2018/12/24 17:26:07 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "wolf3d.h"
 
-void	*ft_memalloc(size_t size)
+void			del_texture(t_uint **texture)
 {
-	char	*mem;
-	size_t	i;
+	int i;
 
-	i = 0;
-	if ((mem = (char *)malloc(size)))
-		ft_bzero(mem, size);
-	return (mem);
+	i = -1;
+	while (++i < 8)
+		free(texture[i]);
+	free(texture);
 }

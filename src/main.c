@@ -14,8 +14,15 @@
 
 int		exit_hook(void *param)
 {
+	t_win *win;
+
+	win = (t_win *)param;
+	del_texture(win->texture);
 	exit(0);
 }
+
+// TODO load map from comand line, map will store in fdf-like format
+// let source code support SDL2  
 
 int		main(int argc, char const *argv[])
 {

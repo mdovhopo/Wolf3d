@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*   test_SDL.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/29 15:35:57 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/10/29 16:39:48 by mdovhopo         ###   ########.fr       */
+/*   Created: 2018/12/23 16:27:00 by mdovhopo          #+#    #+#             */
+/*   Updated: 2018/12/23 16:43:34 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <SDL2/SDL.h>
+#include <stdio.h>
 
-void	*ft_memalloc(size_t size)
+int		main(void)
 {
-	char	*mem;
-	size_t	i;
-
-	i = 0;
-	if ((mem = (char *)malloc(size)))
-		ft_bzero(mem, size);
-	return (mem);
+	if (!SDL_Init(SDL_INIT_EVERYTHING))
+	{
+		printf("SDL Error\n");
+		return (1);
+	}
+	return (0);
 }

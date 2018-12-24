@@ -24,7 +24,16 @@ f = -Wall -Wextra -Werror
 
 FLAGS = 
 
-SRC_C = $(addprefix $(SRC)/, main.c clear_img.c render.c setters.c ft_color_rgb.c line.c motion_mouse.c deal_key.c)
+SRC_C = $(addprefix $(SRC)/, \
+main.c \
+clear_img.c \
+render.c \
+setters.c \
+ft_color_rgb.c \
+line.c \
+motion_mouse.c \
+deal_key.c \
+scavenger.c)
 
 FRAMEWORKS = -framework OpenGL -framework Appkit
 

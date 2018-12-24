@@ -36,6 +36,7 @@ typedef struct	s_win
 	int			size_line;
 	int			endian;
 	int			color;
+	t_uint		**texture;
 	double		posX;
 	double		posY;
 	double		planeX;
@@ -56,7 +57,13 @@ void			line(t_intvec2 start, t_intvec2 end, t_win *win);
 ** listeners
 */
 
-int			motion_mouse(int x, int y, void *param);
-int			deal_key(int key, void *param);
+int				motion_mouse(int x, int y, void *param);
+int				deal_key(int key, void *param);
+
+/*
+** junk cleaners
+*/
+
+void			del_texture(t_uint **texture);
 
 #endif /* WOLF3D_H */
