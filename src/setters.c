@@ -24,10 +24,13 @@ t_win	*setup(char *name)
 	win->size_line = HEIGHT;
 	win->endian = 0;
 	win->color = 0;
-	win->posX = 22;
+	win->posX = 12;
 	win->posY = 12;
+	win->planeX = 0;
+	win->planeY = 0.66;
 	win->dirX = -1;
 	win->dirY = 0;
+	win->mousePosX = WIDTH / 2;
 	win->img = mlx_get_data_addr(win->img_ptr, &win->bits_per_pixel,
 		&win->size_line, &win->endian);
 	return (win);

@@ -23,6 +23,8 @@
 # define HEIGHT 720
 # define MAPWIDTH 24
 # define MAPHEIGHT 24
+# define TEXWIDTH 64
+# define TEXHEIGHT 64
 
 typedef struct	s_win
 {
@@ -34,10 +36,13 @@ typedef struct	s_win
 	int			size_line;
 	int			endian;
 	int			color;
-	int			posX;
-	int 		posY;
-	int			dirX;
-	int			dirY;
+	double		posX;
+	double		posY;
+	double		planeX;
+	double		planeY;
+	double		dirX;
+	double		dirY;
+	double		mousePosX;
 }				t_win;
 
 void			render(t_win *win);
@@ -46,5 +51,12 @@ void			draw_map(t_win *win, int posX, int posY);
 t_win			*setup(char *name);
 int				ft_color_rgb(int r, int g, int b);
 void			line(t_intvec2 start, t_intvec2 end, t_win *win);
+
+/*
+** listeners
+*/
+
+int			motion_mouse(int x, int y, void *param);
+int			deal_key(int key, void *param);
 
 #endif /* WOLF3D_H */

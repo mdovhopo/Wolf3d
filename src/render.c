@@ -40,16 +40,49 @@ int worldMap[MAPWIDTH][HEIGHT]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+void	character(t_win *win, int posX, int posY)
+{
+	int i;
+
+	i = 10;
+	while (--i > 0)
+		((int *)win->img)[(posY * 5 - i) * WIDTH + (posX * 5)] = 0xFF0000;
+}
+
+void	draw_map(t_win *win, int posX, int posY)
+{
+	int color;
+
+	for (int y = 0; y < MAPHEIGHT; y++)
+		for (int x = 0; x < MAPWIDTH; x++)
+		{
+			switch (worldMap[y][x])
+			{
+				case 1: color = ft_color_rgb(255, 0, 0); break;
+				case 2: color = ft_color_rgb(0, 255, 0); break;
+				case 3: color = ft_color_rgb(0, 0, 255); break;
+				case 0: color = ft_color_rgb(255, 255, 255); break;
+				default: color = ft_color_rgb(255, 255, 0); break;
+			}
+			if (x == posY && y == posY)
+				character(win, posX, posY);
+			else
+				((int *)win->img)[(y * 5) * WIDTH + (x * 5)] = color;
+		}
+
+}
+
 void	render(t_win *win)
 {
-	double posX = (double)win->posX, posY = (double)win->posY;
+	double posX = win->posX, posY = win->posY;
 	double dirX = win->dirX, dirY = win->dirY;
-	double planeX = 0, planeY = 0.66;
+	double planeX = win->planeX, planeY = win->planeY;
 
 	double time = 0;
 	double oldTime = 0;
 
-	for (int x = 0; x < WIDTH; x++)
+	draw_map(win, win->posX, win->posY); // mini-map
+	for (int x = 0;x < WIDTH; x++)
 	{
 		double cameraX = 2 * x / (double)WIDTH - 1;
 		double rayDirX = dirX + planeX * cameraX;
@@ -78,7 +111,7 @@ void	render(t_win *win)
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1 - posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
@@ -88,14 +121,14 @@ void	render(t_win *win)
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1 - posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
 		}
 		while (hit == 0)
 		{
 			if (sideDistX < sideDistY)
 			{
 				sideDistX += deltaDistX;
-				mapX+= stepX;
+				mapX += stepX;
 				side = 0;
 			}
 			else
@@ -113,7 +146,7 @@ void	render(t_win *win)
 			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 		int lineHeight = (int)(HEIGHT / perpWallDist);
 
-		int drawStart = -lineHeight / 2 + HEIGHT;
+		int drawStart = -lineHeight / 2 + HEIGHT / 2;
 		if (drawStart < 0)
 			drawStart = 0;
 		int drawEnd = lineHeight / 2 + HEIGHT / 2;
@@ -125,7 +158,7 @@ void	render(t_win *win)
 			case 1: win->color = side == 1 ? ft_color_rgb(130, 0, 0) : ft_color_rgb(255, 0, 0); break;
 			case 2: win->color = side == 1 ? ft_color_rgb(0, 130, 0) : ft_color_rgb(0, 255, 0); break;
 			case 3: win->color = side == 1 ? ft_color_rgb(0, 0, 130) : ft_color_rgb(0, 0, 255); break;
-			case 4: win->color = side == 1 ? ft_color_rgb(130, 130, 130) : ft_color_rgb(255, 255, 255); break;
+			case 0: win->color = side == 1 ? ft_color_rgb(130, 130, 130) : ft_color_rgb(255, 255, 255); break;
 			default: win->color = side == 1 ? ft_color_rgb(130, 130, 0) : ft_color_rgb(255, 255, 0); break;
 		}
 //		if (side == 1) // different colors for different sides
@@ -133,8 +166,6 @@ void	render(t_win *win)
 
 		line(ft_new_intvec2(x, drawStart) , ft_new_intvec2(x, drawEnd), win);
 
-		double moveSpeed = 5;
-		double rotSpeed = 3;
 	}
 	mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->img_ptr, 0, 0);
 	clear_img(win);
