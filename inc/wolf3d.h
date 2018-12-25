@@ -13,9 +13,12 @@
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-# include "mlx.h"
-# include <stdio.h>
 # include "../libft/libft.h"
+# include <SDL2/SDL.h>
+# include <SDL_image.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdbool.h>
 # include "map.h"
 # include <math.h>
 
@@ -26,15 +29,8 @@
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
 
-typedef struct	s_win
+typedef struct	s_frame
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	void		*img_ptr;
-	char		*img;
-	int			bits_per_pixel;
-	int			size_line;
-	int			endian;
 	int			color;
 	t_uint		**texture;
 	double		posX;
@@ -44,15 +40,16 @@ typedef struct	s_win
 	double		dirX;
 	double		dirY;
 	double		mousePosX;
-}				t_win;
+}				t_frame;
 
+/*
 void			render(t_win *win);
 void			clear_img(t_win *win);
 void			draw_map(t_win *win, int posX, int posY);
-t_win			*setup(char *name);
+//t_win			*setup(char *name);
 int				ft_color_rgb(int r, int g, int b);
 void			line(t_intvec2 start, t_intvec2 end, t_win *win);
-
+*/
 /*
 ** listeners
 */
@@ -65,5 +62,18 @@ int				deal_key(int key, void *param);
 */
 
 void			del_texture(t_uint **texture);
+
+/*
+** setters
+*/
+
+t_frame			*setup_frame(void);
+t_uint			**set_texture(void);
+
+/*
+** for events
+*/
+
+void			event_manager(SDL_Event event, t_frame *frame);
 
 #endif /* WOLF3D_H */

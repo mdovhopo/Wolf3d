@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/23 15:35:11 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/12/23 15:35:28 by mdovhopo         ###   ########.fr       */
+/*   Created: 2018/12/25 16:37:59 by mdovhopo          #+#    #+#             */
+/*   Updated: 2018/12/25 16:38:00 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,18 @@ t_uint			**set_texture(void)
 	return (texture);
 }
 
-t_win			*setup(char *name)
+t_frame		*setup_frame(void)
 {
-	t_win *win;
+	t_frame	*f;
 
-	win = (t_win *)malloc(sizeof(t_win));
-	win->mlx_ptr = mlx_init();
-	win->win_ptr = mlx_new_window(win->mlx_ptr, WIDTH, HEIGHT, name);
-	win->img_ptr = mlx_new_image(win->mlx_ptr, WIDTH, HEIGHT);
-	win->bits_per_pixel = 4;
-	win->size_line = HEIGHT;
-	win->endian = 0;
-	win->color = 0;
-	win->posX = 22;
-	win->posY = 11.5;
-	win->planeX = 0;
-	win->planeY = 0.66;
-	win->dirX = -1;
-	win->dirY = 0;
-	win->mousePosX = WIDTH / 2;
-	win->texture = set_texture();
-	win->img = mlx_get_data_addr(win->img_ptr, &win->bits_per_pixel,
-		&win->size_line, &win->endian);
-	ft_bzero(win->img, WIDTH * HEIGHT);
-	return (win);
+	f = (t_frame *)malloc(sizeof(t_frame));
+	f->texture = set_texture();
+	f->color = 0x000000;
+    f->posX = 22;
+	f->posY = 11.5;
+	f->planeX = 0;
+	f->planeY = 0.66;
+	f->dirX = -1;
+	f->dirY = 0;
+	return (f);
 }

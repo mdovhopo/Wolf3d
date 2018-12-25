@@ -14,28 +14,23 @@ NAME = wolf3d
 
 LIBFT = libft
 
-INC = inc
+INC_SDL2 = frameworks/SDL2_image.framework/Versions/A/Headers
+
+INC =	-I inc \
+		-I frameworks/SDL2_image.framework/Versions/A/Headers
 
 SRC = src
-
-MLX = /usr/local/lib
 
 f = -Wall -Wextra -Werror
 
 FLAGS = 
 
-SRC_C = $(addprefix $(SRC)/, \
-main.c \
-clear_img.c \
-render.c \
-setters.c \
-ft_color_rgb.c \
-line.c \
-motion_mouse.c \
-deal_key.c \
-scavenger.c)
+SRC_C = $(addprefix $(SRC)/, main.c line.c setters.c event_manager.c)
 
-FRAMEWORKS = -framework OpenGL -framework Appkit
+FRAMEWORKS = -F frameworks \
+			-rpath frameworks \
+			-framework SDL2 \
+			-framework SDL2_image
 
 SRC_O = $(SRC_C:.c=.o)
 
@@ -46,15 +41,14 @@ all: $(NAME)
 libft/libft.a:
 	@make -C $(LIBFT)
 
-$(NAME): libft/libft.a $(SRC_O) inc/wolf3d.h
+$(NAME): libft/libft.a $(SRC_O)
 	@echo "[Compiling] $@"
-	@$(CC) $(FLAGS) -I $(INC) -o $(NAME) $(SRC_O) -L $(LIBFT) -lft \
-	-L $(MLX) -lmlx $(FRAMEWORKS) -lpthread
-	@echo "\033[92mmake[$(NAME) Has been created]\033[0m\nrun ./$@"
+	@$(CC) $(FLAGS) $(INC) -o $(NAME) $(SRC_O) -L $(LIBFT) -lft $(FRAMEWORKS) -lpthread
+	@echo "\033[92m[$(NAME) Has been created]\033[0m\nrun ./$@"
 
 $(SRC)/%.o: $(SRC)/%.c 
 	@echo "[Compiling] $@"
-	@$(CC) $(FLAGS) -I $(INC) -I . -c $< -o $@
+	@$(CC) $(FLAGS) $(INC) -I . -c $< -o $@
 
 clean:	
 	@/bin/rm -f $(SRC_O)
