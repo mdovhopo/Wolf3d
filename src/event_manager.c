@@ -40,7 +40,7 @@ int WorldMap[MAPWIDTH][MAPHEIGHT]=
   {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
 };
 
-double rotSpeed = 0.1;
+double rotSpeed = 0.08;
 double moveSpeed = 0.1;
 
 static void	move_up(t_frame *f)
@@ -124,6 +124,10 @@ void		event_manager(SDL_Event event, t_frame *f)
 	}
 	if (SDL_MOUSEMOTION == event.type)
 	{
+		if (event.motion.x >= WIDTH - 5)
+			SDL_WarpMouseInWindow(NULL, 10, event.motion.y);
+		else if (event.motion.x <= 5)
+			SDL_WarpMouseInWindow(NULL, WIDTH - 10, event.motion.y);
 		move_camera(f, event.motion.x, event.motion.y);
 	}
 }

@@ -22,6 +22,7 @@ t_uint			**set_texture(void)
 	i = -1;
 	x = -1;
 	texture = (t_uint **)ft_memalloc(sizeof(t_uint *) * 8);
+
 	while (++i < 8)
 		texture[i] = (t_uint *)ft_memalloc(TEXWIDTH * TEXHEIGHT * sizeof(t_uint));
 	while (++x < TEXWIDTH)
@@ -38,6 +39,7 @@ t_uint			**set_texture(void)
     		texture[3][TEXWIDTH * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
     		texture[4][TEXWIDTH * y + x] = 256 * xorcolor; //xor green
     		texture[5][TEXWIDTH * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
+    		//texture[5] = img->pixels;
     		texture[6][TEXWIDTH * y + x] = 65536 * ycolor; //red gradient
     		texture[7][TEXWIDTH * y + x] = 0xff0066;//pink texture 128 + 256 * 128 + 65536 * 128 - flat grey texture
 		}

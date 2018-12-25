@@ -160,7 +160,6 @@ int 	main(int argc, char const *argv[])
 	SDL_Window 		*window;
 	SDL_Event 		event;
 	SDL_Surface		*surface;
-	char			*pixels;
 	t_frame 		*f;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
