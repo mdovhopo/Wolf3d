@@ -18,13 +18,12 @@
 # include <SDL_image.h>
 # include <stdio.h>
 # include <stdbool.h>
-# include "map.h"
 # include <math.h>
 
 # define WIDTH 1280
 # define HEIGHT 720
-# define MAPWIDTH 24
-# define MAPHEIGHT 24
+# define MAPWIDTH 5//24
+# define MAPHEIGHT 5//24
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
 

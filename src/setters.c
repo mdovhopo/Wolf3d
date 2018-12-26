@@ -50,11 +50,11 @@ t_frame			*setup_frame(void)
 
 	f = (t_frame *)malloc(sizeof(t_frame));
 	f->texture = load_texture();
-	f->posX = 22;
-	f->posY = 11.5;
-	f->planeX = 0;
-	f->planeY = 0.66;
-	f->dirX = -1;
-	f->dirY = 0;
+	f->posX = 1.5;
+	f->posY = 1.5;
+	f->planeX = 0.472722;
+	f->planeY = -0.460580;
+	f->dirX = 0.697848;
+	f->dirY = 0.716246;
 	return (f);
 }

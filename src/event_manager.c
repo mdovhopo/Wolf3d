@@ -14,33 +14,14 @@
 
 int WorldMap[MAPWIDTH][MAPHEIGHT]=
 {
-  {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-  {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-  {4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-  {4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-  {4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-  {4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-  {4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-  {4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-  {4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-  {4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-  {4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-  {4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-  {6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-  {8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-  {6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-  {4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-  {4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-  {4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-  {4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-  {4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-  {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
+{1, 1, 1, 1, 1},
+{1, 0, 0, 0, 1},
+{1, 0, 0, 0, 1},
+{1, 0, 0, 0, 1},
+{1, 1, 1, 1, 1}
 };
 
-double rotSpeed = 0.02;
+double rotSpeed = 0.08;
 double moveSpeed = 0.1;
 
 static void	move_up(t_frame *f)
@@ -104,12 +85,12 @@ static void	move_camera(t_frame *f, int x, int y)
 
 static void	reset_values(t_frame *f)
 {
-	f->posX = 22;
-	f->posY = 11.5;
-	f->planeX = 0;
-	f->planeY = 0.66;
-	f->dirX = -1;
-	f->dirY = 0;
+	f->posX = 1.5;
+	f->posY = 1.5;
+	f->planeX = 0.472722;
+	f->planeY = -0.460580;
+	f->dirX = 0.697848;
+	f->dirY = 0.716246;
 }
 
 static void	infinite_rotate(int x, int y)
@@ -133,6 +114,30 @@ static void	infinite_rotate(int x, int y)
 		SDL_WarpMouseInWindow(NULL, right_border - 1, y);
 }
 
+static void	turn_left(t_frame *f)
+{
+	printf("left\n");
+	double rotAngle = -rotSpeed;
+	double oldDirX = f->dirX;
+	f->dirX = f->dirX * cos(-rotAngle) - f->dirY * sin(-rotAngle);
+	f->dirY = oldDirX * sin(-rotAngle) + f->dirY * cos(-rotAngle);
+	double oldPlaneX = f->planeX;
+	f->planeX = f->planeX * cos(-rotAngle) - f->planeY * sin(-rotAngle);
+	f->planeY = oldPlaneX * sin(-rotAngle) + f->planeY * cos(-rotAngle);
+}
+
+static void turn_right(t_frame *f)
+{
+	printf("right\n");
+	double rotAngle = rotSpeed;
+	double oldDirX = f->dirX;
+	f->dirX = f->dirX * cos(-rotAngle) - f->dirY * sin(-rotAngle);
+	f->dirY = oldDirX * sin(-rotAngle) + f->dirY * cos(-rotAngle);
+	double oldPlaneX = f->planeX;
+	f->planeX = f->planeX * cos(-rotAngle) - f->planeY * sin(-rotAngle);
+	f->planeY = oldPlaneX * sin(-rotAngle) + f->planeY * cos(-rotAngle);
+}
+
 void		event_manager(SDL_Event event, t_frame *f)
 {
 	int key_code;
@@ -150,6 +155,10 @@ void		event_manager(SDL_Event event, t_frame *f)
 			move_right(f);
 		else if (SDL_SCANCODE_D == key_code)
 			move_left(f);
+		else if (SDL_SCANCODE_LEFT == key_code)
+			turn_left(f);
+		else if (SDL_SCANCODE_RIGHT == key_code)
+			turn_right(f);
 	}
 	if (SDL_MOUSEMOTION == event.type)
 	{

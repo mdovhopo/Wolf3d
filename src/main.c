@@ -14,31 +14,27 @@
 
 int worldMap[MAPWIDTH][MAPHEIGHT]=
 {
-  {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-  {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-  {4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-  {4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-  {4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-  {4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-  {4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-  {4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-  {4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-  {4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-  {4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-  {4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-  {6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-  {8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-  {6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-  {4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-  {4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-  {4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-  {4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-  {4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-  {4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-  {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
+{1, 1, 1, 1, 1},
+{1, 0, 0, 0, 1},
+{1, 0, 0, 0, 1},
+{1, 0, 0, 0, 1},
+{1, 1, 1, 1, 1}
 };
+
+void	set_pix(char *pix)
+{
+	int x, y;
+
+	y = -1;
+	while (++y < HEIGHT)
+	{
+		x = -1;
+		while (++x < WIDTH)
+		{
+			((int *)pix)[y * WIDTH + x] = 0x00FFFF;
+		}
+	}
+}
 
 void	engine(char *pixels, t_frame *f)
 {
@@ -49,6 +45,7 @@ void	engine(char *pixels, t_frame *f)
 	printf("%f %f\n", posY, posX);
 	printf("%f %f\n", dirY, dirX);
 	printf("%f %f\n", planeY, planeX);
+
 	for (int x = 0;x < WIDTH; x++)
 	{
 		double cameraX = 2 * x / (double)WIDTH - 1;
@@ -112,12 +109,13 @@ void	engine(char *pixels, t_frame *f)
 		else
 			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 		int lineHeight = (int)(HEIGHT / perpWallDist);
-
+		if (0 && lineHeight > HEIGHT + 1)
+			lineHeight = HEIGHT;
 		int drawStart = -lineHeight / 2 + HEIGHT / 2;
 		if (drawStart < 0)
 			drawStart = 0;
 		int drawEnd = lineHeight / 2 + HEIGHT / 2;
-		if (drawEnd >= HEIGHT)
+		if (drawEnd >= HEIGHT || drawEnd < 0)
 			drawEnd = HEIGHT - 1;
 		int texNum = worldMap[mapX][mapY] - 1;
 		double wallX;
@@ -135,19 +133,19 @@ void	engine(char *pixels, t_frame *f)
 		{
 			int d = y * 256 - HEIGHT * 128 + lineHeight * 128;
 			int texY = ((d * TEXHEIGHT) / lineHeight) / 256;
-			t_uint color = 0x00FFFF;//(f->texture)[texNum][TEXHEIGHT * texY + texX];
+			int color = ((int *)f->texture[texNum]->pixels)[TEXWIDTH * texY + texX];
 			if (side == 1)
 				color = (color >> 1) & 8355711;
 			((int *)pixels)[y * WIDTH + x] = color;
 		}
-		if (drawStart >= 0)
+		if (drawStart > 0)
 		{
-			for (int y = drawStart; y >= 0 ; y--)
+			for (int y = drawStart - 1; y >= 0; y--)
 			{
 				((int *)pixels)[y * WIDTH + x] = 0x00BFFF;
 			}
 		}
-		if (drawEnd < HEIGHT)
+		if (drawEnd < HEIGHT - 1)
 		{
 			for (int y = drawEnd; y < HEIGHT; y++)
 			{
@@ -155,10 +153,12 @@ void	engine(char *pixels, t_frame *f)
 			}
 		}
 	}
-	printf("work\n");
 }
 
-// TODO fix leaks (probably in texture loader)
+// TODO check leaks
+// TODO Pers go out map when come close to max map h-w
+// TODO menu
+// TODO reading map from file
 
 int 	main(int argc, char const *argv[])
 {
@@ -186,14 +186,15 @@ int 	main(int argc, char const *argv[])
 				running = false;
 				break;
 			}
-			//event_manager(event, f);
+			event_manager(event, f);
 		}
-		//engine(surface->pixels, f);
+		engine(surface->pixels, f);
 		SDL_UpdateWindowSurface(window);
+	ft_bzero(surface->pixels, WIDTH * HEIGHT * sizeof(int));
 	}
 	//del_textures();
 	SDL_FreeSurface(surface);
     SDL_Quit();
-    system("leaks wolf3d");
+    //system("leaks wolf3d");
 	return 0;
 }
