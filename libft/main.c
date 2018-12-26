@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/27 14:12:57 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/10/29 19:30:25 by mdovhopo         ###   ########.fr       */
+/*   Created: 2018/12/26 17:51:34 by mdovhopo          #+#    #+#             */
+/*   Updated: 2018/12/26 17:53:13 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/* ****************************************************************************/
 
 #include "libft.h"
+#include <stdio.h>
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+int main(void)
 {
-	size_t			i;
+	char *dst = "1234567890";
+	char *src = "src";
 
-	i = 0;
-	dst = (unsigned char *)dst;
-	src = (unsigned char *)src;
-	while (0 && i < n)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	return (dst);
+	printf("dst: %s\nsrc: %s\n", dst, src);
+	ft_show_binary((unsigned int)(*dst + 1));
+	ft_bzero(dst, 9);
+	printf("dst: %s\nsrc: %s\n", dst, src);
+	//ft_memcpy(dst, src, 3);
+	return (0);
 }

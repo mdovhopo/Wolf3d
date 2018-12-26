@@ -17,7 +17,6 @@
 # include <SDL2/SDL.h>
 # include <SDL_image.h>
 # include <stdio.h>
-# include <string.h>
 # include <stdbool.h>
 # include "map.h"
 # include <math.h>
@@ -32,7 +31,7 @@
 typedef struct	s_frame
 {
 	int			color;
-	t_uint		**texture;
+	SDL_Surface	**texture;
 	double		posX;
 	double		posY;
 	double		planeX;

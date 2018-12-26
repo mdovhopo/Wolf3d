@@ -12,49 +12,45 @@
 
 #include "wolf3d.h"
 
-t_uint			**set_texture(void)
+SDL_Surface		*load_image(char *path)
 {
-	int		i;
-	int		x;
-	int		y;
-	t_uint	**texture;
+	SDL_Surface 	*img;
 
-	i = -1;
-	x = -1;
-	texture = (t_uint **)ft_memalloc(sizeof(t_uint *) * 8);
-
-	while (++i < 8)
-		texture[i] = (t_uint *)ft_memalloc(TEXWIDTH * TEXHEIGHT * sizeof(t_uint));
-	while (++x < TEXWIDTH)
+	if ((img = IMG_Load(path)) == NULL)
 	{
-		y = -1;
-		while (++y < TEXHEIGHT)
-		{
-			int xorcolor = (x * 256 / TEXWIDTH) ^ (y * 256 / TEXHEIGHT);
-			int ycolor = y * 256 / TEXHEIGHT;
-			int xycolor = y * 128 / TEXHEIGHT + x * 128 / TEXWIDTH;
-			texture[0][TEXWIDTH * y + x] = 65536 * 254 * (x != y && x != TEXWIDTH - y); //flat red texture with black cross
-    		texture[1][TEXWIDTH * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
-   			texture[2][TEXWIDTH * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
-    		texture[3][TEXWIDTH * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
-    		texture[4][TEXWIDTH * y + x] = 256 * xorcolor; //xor green
-    		texture[5][TEXWIDTH * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
-    		//texture[5] = img->pixels;
-    		texture[6][TEXWIDTH * y + x] = 65536 * ycolor; //red gradient
-    		texture[7][TEXWIDTH * y + x] = 0xff0066;//pink texture 128 + 256 * 128 + 65536 * 128 - flat grey texture
-		}
+		ft_putstr(path);
+		ft_putstr("\nImg not founded... \n");
+		system("leaks wolf3d");
+		exit(0);
 	}
+	return (img);
+}
+
+SDL_Surface		**load_texture(void)
+{
+	SDL_Surface	**texture;
+
+	texture = (SDL_Surface **)ft_memalloc(sizeof(SDL_Surface **) * 8);
+	printf("Loading textures...\n");
+	texture[0] = load_image("pics/redbrick.png");
+	texture[1] = load_image("pics/wood.png");
+	texture[2] = load_image("pics/mossy.png");
+	texture[3] = load_image("pics/colorstone.png");
+	texture[4] = load_image("pics/greystone.png");
+	texture[5] = load_image("pics/bluestone.png");
+	texture[6] = load_image("pics/eagle.png");
+	texture[7] = load_image("pics/purplestone.png");
+	printf("Done!\n");
 	return (texture);
 }
 
-t_frame		*setup_frame(void)
+t_frame			*setup_frame(void)
 {
 	t_frame	*f;
 
 	f = (t_frame *)malloc(sizeof(t_frame));
-	f->texture = set_texture();
-	f->color = 0x000000;
-    f->posX = 22;
+	f->texture = load_texture();
+	f->posX = 22;
 	f->posY = 11.5;
 	f->planeX = 0;
 	f->planeY = 0.66;

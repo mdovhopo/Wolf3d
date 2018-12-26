@@ -40,50 +40,58 @@ int WorldMap[MAPWIDTH][MAPHEIGHT]=
   {4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
 };
 
-double rotSpeed = 0.08;
+double rotSpeed = 0.02;
 double moveSpeed = 0.1;
 
 static void	move_up(t_frame *f)
 {
-	if (WorldMap[(int)(f->posX + f->dirX * moveSpeed)][(int)(f->posY)] == 0)
+	if (WorldMap[(int)(f->posX + f->dirX * moveSpeed + 0.5)][(int)(f->posY)] == 0)
 		f->posX += f->dirX * moveSpeed;
-	if (WorldMap[(int)(f->posX)][(int)(f->posY + f->dirX * moveSpeed)] == 0)
+	if (WorldMap[(int)(f->posX)][(int)(f->posY + f->dirX * moveSpeed + 0.5)] == 0)
 		f->posY += f->dirY * moveSpeed;
 }
 
 static void	move_back(t_frame *f)
 {
-	if (WorldMap[(int)(f->posX - f->dirX * moveSpeed)][(int)(f->posY)] == 0)
+	if (WorldMap[(int)(f->posX - f->dirX * moveSpeed - 0.5)][(int)(f->posY)] == 0)
 		f->posX -= f->dirX * moveSpeed;
-	if (WorldMap[(int)(f->posX)][(int)(f->posY - f->dirX * moveSpeed)] == 0)
+	if (WorldMap[(int)(f->posX)][(int)(f->posY - f->dirX * moveSpeed - 0.5)] == 0)
 		f->posY -= f->dirY * moveSpeed;
 }
 
-static void	turn_right(t_frame *f)
+static void	move_right(t_frame *f)
 {
-	double oldDirX = f->dirX;
-	f->dirX = f->dirX * cos(rotSpeed) - f->dirY * sin(rotSpeed);
-	f->dirY = oldDirX * sin(rotSpeed) + f->dirY * cos(rotSpeed);
-	double oldPlaneX = f->planeX;
-	f->planeX = f->planeX * cos(rotSpeed) - f->planeY * sin(rotSpeed);
-	f->planeY = oldPlaneX * sin(rotSpeed) + f->planeY * cos(rotSpeed);
+	double dirx;
+	double tmp_dirx;
+	double diry;
+
+	dirx = -f->dirY * moveSpeed;
+	diry = f->dirX * moveSpeed;
+	if (WorldMap[(int)(f->posX + dirx + 0.5)][(int)(f->posY)] == 0)
+		f->posX += dirx;
+	if (WorldMap[(int)(f->posX)][(int)(f->posY + diry + 0.5)] == 0)
+		f->posY += diry;
 }
 
-static void	turn_left(t_frame *f)
+static void	move_left(t_frame *f)
 {
-	double oldDirX = f->dirX;
-	f->dirX = f->dirX * cos(-rotSpeed) - f->dirY * sin(-rotSpeed);
-	f->dirY = oldDirX * sin(-rotSpeed) + f->dirY * cos(-rotSpeed);
-	double oldPlaneX = f->planeX;
-	f->planeX = f->planeX * cos(-rotSpeed) - f->planeY * sin(-rotSpeed);
-	f->planeY = oldPlaneX * sin(-rotSpeed) + f->planeY * cos(-rotSpeed);
+	double dirx;
+	double tmp_dirx;
+	double diry;
+
+	dirx = f->dirY * moveSpeed;
+	diry = -f->dirX * moveSpeed;
+	if (WorldMap[(int)(f->posX + dirx)][(int)(f->posY)] == 0)
+		f->posX += dirx;
+	if (WorldMap[(int)(f->posX)][(int)(f->posY + diry)] == 0)
+		f->posY += diry;
 }
 
 static void	move_camera(t_frame *f, int x, int y)
 {
 	if (f->mousePosX - x != 0)
 	{
-		double rotAngle = f->mousePosX - x > 0 ? -0.1: 0.1;
+		double rotAngle = f->mousePosX - x > 0 ? -rotSpeed : rotSpeed;
 		double oldDirX = f->dirX;
 		f->dirX = f->dirX * cos(-rotAngle) - f->dirY * sin(-rotAngle);
 		f->dirY = oldDirX * sin(-rotAngle) + f->dirY * cos(-rotAngle);
@@ -104,6 +112,27 @@ static void	reset_values(t_frame *f)
 	f->dirY = 0;
 }
 
+static void	infinite_rotate(int x, int y)
+{
+	int left_border;
+	int right_border;
+	int upper_border;
+	int lower_border;
+
+	upper_border = HEIGHT * 1 / 5;
+	lower_border = HEIGHT * 4 / 5;	
+	left_border = WIDTH * 1 / 5;
+	right_border = WIDTH * 4 / 5;
+	if (y >= lower_border)
+		SDL_WarpMouseInWindow(NULL, x, upper_border + 1);
+	else if (y <= upper_border)
+		SDL_WarpMouseInWindow(NULL, x, lower_border - 1);
+	if (x >= right_border)
+		SDL_WarpMouseInWindow(NULL, left_border + 1, y);
+	else if (x <= left_border)
+		SDL_WarpMouseInWindow(NULL, right_border - 1, y);
+}
+
 void		event_manager(SDL_Event event, t_frame *f)
 {
 	int key_code;
@@ -118,16 +147,13 @@ void		event_manager(SDL_Event event, t_frame *f)
 		else if (SDL_SCANCODE_R == key_code)
 			reset_values(f);
 		else if (SDL_SCANCODE_A == key_code)
-			turn_right(f);
+			move_right(f);
 		else if (SDL_SCANCODE_D == key_code)
-			turn_left(f);
+			move_left(f);
 	}
 	if (SDL_MOUSEMOTION == event.type)
 	{
-		if (event.motion.x >= WIDTH - 5)
-			SDL_WarpMouseInWindow(NULL, 10, event.motion.y);
-		else if (event.motion.x <= 5)
-			SDL_WarpMouseInWindow(NULL, WIDTH - 10, event.motion.y);
+		infinite_rotate(event.motion.x, event.motion.y);
 		move_camera(f, event.motion.x, event.motion.y);
 	}
 }

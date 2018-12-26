@@ -46,6 +46,9 @@ void	engine(char *pixels, t_frame *f)
 	double dirX = f->dirX, dirY = f->dirY;
 	double planeX = f->planeX, planeY = f->planeY;
 
+	printf("%f %f\n", posY, posX);
+	printf("%f %f\n", dirY, dirX);
+	printf("%f %f\n", planeY, planeX);
 	for (int x = 0;x < WIDTH; x++)
 	{
 		double cameraX = 2 * x / (double)WIDTH - 1;
@@ -132,7 +135,7 @@ void	engine(char *pixels, t_frame *f)
 		{
 			int d = y * 256 - HEIGHT * 128 + lineHeight * 128;
 			int texY = ((d * TEXHEIGHT) / lineHeight) / 256;
-			t_uint color = (f->texture)[texNum][TEXHEIGHT * texY + texX];
+			t_uint color = 0x00FFFF;//(f->texture)[texNum][TEXHEIGHT * texY + texX];
 			if (side == 1)
 				color = (color >> 1) & 8355711;
 			((int *)pixels)[y * WIDTH + x] = color;
@@ -144,7 +147,6 @@ void	engine(char *pixels, t_frame *f)
 				((int *)pixels)[y * WIDTH + x] = 0x00BFFF;
 			}
 		}
-		//line(ft_new_intvec2(x, drawStart), ft_new_intvec2(x, drawEnd), f, pixels);
 		if (drawEnd < HEIGHT)
 		{
 			for (int y = drawEnd; y < HEIGHT; y++)
@@ -153,7 +155,10 @@ void	engine(char *pixels, t_frame *f)
 			}
 		}
 	}
+	printf("work\n");
 }
+
+// TODO fix leaks (probably in texture loader)
 
 int 	main(int argc, char const *argv[])
 {
@@ -162,28 +167,33 @@ int 	main(int argc, char const *argv[])
 	SDL_Surface		*surface;
 	t_frame 		*f;
 
-	SDL_Init(SDL_INIT_EVERYTHING);
-	atexit(SDL_Quit);
 	f = setup_frame();
-	window = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+		return (1);
+	atexit(SDL_Quit);
+	SDL_ShowCursor(SDL_DISABLE);
+	window = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	surface = SDL_GetWindowSurface(window);
+	SDL_WarpMouseInWindow(window, WIDTH / 2, HEIGHT / 2);
 	bool running = true;
 	while (running)
 	{
 		while(SDL_PollEvent(&event))
-        {
-            if((SDL_QUIT == event.type) ||
-                (SDL_KEYDOWN == event.type && SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
-            {
-                running = false;
-                break;
-            }
-            event_manager(event, f);
-        }
-        engine(surface->pixels, f);
-        SDL_UpdateWindowSurface(window);
+		{
+			if((SDL_QUIT == event.type) ||
+				(SDL_KEYDOWN == event.type && SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
+			{
+				running = false;
+				break;
+			}
+			//event_manager(event, f);
+		}
+		//engine(surface->pixels, f);
+		SDL_UpdateWindowSurface(window);
 	}
+	//del_textures();
 	SDL_FreeSurface(surface);
     SDL_Quit();
+    system("leaks wolf3d");
 	return 0;
 }
