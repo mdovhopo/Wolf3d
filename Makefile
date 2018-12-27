@@ -25,7 +25,13 @@ f = -Wall -Wextra -Werror
 
 FLAGS = 
 
-SRC_C = $(addprefix $(SRC)/, main.c line.c setters.c event_manager.c)
+SRC_C = $(addprefix $(SRC)/, main.c \
+							line.c \
+							setters.c \
+							event_manager.c \
+							load_map.c \
+							error.c \
+							cleaners.c)
 
 FRAMEWORKS = -F frameworks \
 			-rpath frameworks \
@@ -44,7 +50,7 @@ libft/libft.a:
 $(NAME): libft/libft.a $(SRC_O)
 	@echo "[Compiling] $@"
 	@$(CC) $(FLAGS) $(INC) -o $(NAME) $(SRC_O) -L $(LIBFT) -lft $(FRAMEWORKS) -lpthread
-	@echo "\033[92m[$(NAME) Has been created]\033[0m\nrun ./$@"
+	@echo "\033[92m[$(NAME) Has been created]\033[0m\nrun ./$@ <map>"
 
 $(SRC)/%.o: $(SRC)/%.c 
 	@echo "[Compiling] $@"

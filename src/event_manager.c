@@ -12,60 +12,59 @@
 
 #include "wolf3d.h"
 
-int WorldMap[MAPWIDTH][MAPHEIGHT]=
-{
-{1, 1, 1, 1, 1},
-{1, 0, 0, 0, 1},
-{1, 0, 0, 0, 1},
-{1, 0, 0, 0, 1},
-{1, 1, 1, 1, 1}
-};
-
 double rotSpeed = 0.08;
 double moveSpeed = 0.1;
 
 static void	move_up(t_frame *f)
 {
-	if (WorldMap[(int)(f->posX + f->dirX * moveSpeed + 0.5)][(int)(f->posY)] == 0)
+	double	movex;
+	double	movey;
+
+	movex = f->posX + f->dirX * moveSpeed;
+	movey = f->posY + f->dirY * moveSpeed;
+	if (movex < f->mapwidth - 1.2 && movex > 1.2 && (f->map)[(int)(movex)][(int)(f->posY)] == 0)
 		f->posX += f->dirX * moveSpeed;
-	if (WorldMap[(int)(f->posX)][(int)(f->posY + f->dirX * moveSpeed + 0.5)] == 0)
+	if (movey < f->mapheight - 1.2 && movey > 1.2 && (f->map)[(int)(f->posX)][(int)(movey)] == 0)
 		f->posY += f->dirY * moveSpeed;
 }
 
 static void	move_back(t_frame *f)
 {
-	if (WorldMap[(int)(f->posX - f->dirX * moveSpeed - 0.5)][(int)(f->posY)] == 0)
+	double	movex;
+	double	movey;
+
+	movex = f->posX - f->dirX * moveSpeed;
+	movey = f->posY - f->dirY * moveSpeed;
+	if (movex < f->mapwidth - 1.2 && movex > 1.2 && (f->map)[(int)(movex)][(int)(f->posY)] == 0)
 		f->posX -= f->dirX * moveSpeed;
-	if (WorldMap[(int)(f->posX)][(int)(f->posY - f->dirX * moveSpeed - 0.5)] == 0)
+	if (movey < f->mapheight - 1.2 && movey > 1.2 && (f->map)[(int)(f->posX)][(int)(movey)] == 0)
 		f->posY -= f->dirY * moveSpeed;
 }
 
 static void	move_right(t_frame *f)
 {
-	double dirx;
-	double tmp_dirx;
-	double diry;
+	double movex;
+	double movey;
 
-	dirx = -f->dirY * moveSpeed;
-	diry = f->dirX * moveSpeed;
-	if (WorldMap[(int)(f->posX + dirx + 0.5)][(int)(f->posY)] == 0)
-		f->posX += dirx;
-	if (WorldMap[(int)(f->posX)][(int)(f->posY + diry + 0.5)] == 0)
-		f->posY += diry;
+	movex = f->posX + -f->dirY * moveSpeed;
+	movey = f->posY + f->dirX * moveSpeed;
+	if (movex < f->mapwidth - 1.2 && movex > 1.2 && (f->map)[(int)(movex)][(int)(f->posY)] == 0)
+		f->posX += -f->dirY * moveSpeed;
+	if (movey < f->mapheight - 1.2 && movey > 1.2 && (f->map)[(int)(f->posX)][(int)(movey)] == 0)
+		f->posY += f->dirX * moveSpeed;
 }
 
 static void	move_left(t_frame *f)
 {
-	double dirx;
-	double tmp_dirx;
-	double diry;
+	double movex;
+	double movey;
 
-	dirx = f->dirY * moveSpeed;
-	diry = -f->dirX * moveSpeed;
-	if (WorldMap[(int)(f->posX + dirx)][(int)(f->posY)] == 0)
-		f->posX += dirx;
-	if (WorldMap[(int)(f->posX)][(int)(f->posY + diry)] == 0)
-		f->posY += diry;
+	movex = f->posX + f->dirY * moveSpeed;
+	movey = f->posY + -f->dirX * moveSpeed;
+	if (movex < f->mapwidth - 1.2 && movex > 1.2 && (f->map)[(int)(movex)][(int)(f->posY)] == 0)
+		f->posX += f->dirY * moveSpeed;
+	if (movey < f->mapheight - 1.2 && movey > 1.2 && (f->map)[(int)(f->posX)][(int)(movey)] == 0)
+		f->posY += -f->dirX * moveSpeed;
 }
 
 static void	move_camera(t_frame *f, int x, int y)
@@ -85,8 +84,8 @@ static void	move_camera(t_frame *f, int x, int y)
 
 static void	reset_values(t_frame *f)
 {
-	f->posX = 1.5;
-	f->posY = 1.5;
+	f->posX = f->defaultspawn_y;
+	f->posY = f->defaultspawn_x;
 	f->planeX = 0.472722;
 	f->planeY = -0.460580;
 	f->dirX = 0.697848;
