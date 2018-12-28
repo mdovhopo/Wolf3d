@@ -14,7 +14,7 @@
 
 void			play_music(Mix_Music *music)
 {
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		ft_putendl("SDL_mixer could not initialize");
 		exit(0);
@@ -26,4 +26,3 @@ void			play_music(Mix_Music *music)
 	}
 	Mix_PlayMusic(music, -1);
 }
-

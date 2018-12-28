@@ -12,7 +12,8 @@
 
 #include "wolf3d.h"
 
-static void		free_everything(t_frame *f, SDL_Window *window, Mix_Music *music)
+static void		free_everything(t_frame *f,
+								SDL_Window *window, Mix_Music *music)
 {
 	del_textures(f);
 	Mix_FreeMusic(music);
@@ -21,8 +22,6 @@ static void		free_everything(t_frame *f, SDL_Window *window, Mix_Music *music)
 	Mix_Quit();
 	SDL_Quit();
 }
-
-// TODO menu
 
 static int		catch_event(t_frame *f, int fps)
 {
@@ -48,7 +47,7 @@ static int		catch_event(t_frame *f, int fps)
 ** clock.x - start clok clock.y - clock.y
 */
 
-int			main(int argc, char *argv[])
+int				main(int argc, char *argv[])
 {
 	SDL_Window		*window;
 	Mix_Music		*music;
