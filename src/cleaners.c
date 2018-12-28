@@ -19,7 +19,7 @@ void		free_map(int **map, int i)
 	free(map);
 }
 
-void	del_textures(t_frame *f)
+void		del_textures(t_frame *f)
 {
 	int i;
 

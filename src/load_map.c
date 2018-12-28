@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-void			count_size(char *path, t_frame *f)
+static void			count_size(char *path, t_frame *f)
 {
 	int		fd;
 	char	*line;
@@ -37,17 +37,16 @@ void			count_size(char *path, t_frame *f)
 	close(fd);
 }
 
-int				fill_map(char *line, t_frame *f, int y)
+static int			fill_map(char *line, t_frame *f, int y)
 {
 	int x;
-	int tmp;
 
 	x = 0;
 	while (*line)
 	{
 		if (x > f->mapwidth)
 		{
-			free(f->map);
+			free_map(f->map, y);
 			error(2);
 		}
 		while (*line == ' ')
@@ -67,7 +66,36 @@ int				fill_map(char *line, t_frame *f, int y)
 	return (x);
 }
 
-void			load_map(char *path, t_frame *f)
+static void			check_borders(t_frame *f)
+{
+	int x;
+	int y;
+
+	y = -1;
+	if (f->mapheight > 45 || f->mapwidth > 45)
+	{
+		free_map(f->map, f->mapheight);
+		error(6);
+	}
+	while (++y < f->mapheight)
+	{
+		x = -1;
+		while (++x < f->mapwidth)
+		{
+			if (x == 0 || y == 0 ||
+					y == f->mapheight - 1 || x == f->mapwidth - 1)
+			{
+				if (f->map[y][x] < 1)
+				{
+					free_map(f->map, f->mapheight);
+					error(4);
+				}
+			}
+		}
+	}
+}
+
+void				load_map(char *path, t_frame *f)
 {
 	int		fd;
 	int		i;
@@ -84,10 +112,12 @@ void			load_map(char *path, t_frame *f)
 		(f->map)[i] = (int *)malloc(sizeof(int) * f->mapwidth);
 		if (fill_map(line, f, i++) != prev_length)
 		{
-			free_map(f->map, i - 1);
+			free(line);
+			free_map(f->map, i);
 			error(2);
 		}
 		free(line);
 	}
 	close(fd);
+	check_borders(f);
 }

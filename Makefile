@@ -12,12 +12,11 @@
 
 NAME = wolf3d
 
-LIBFT = libft
-
-INC_SDL2 = frameworks/SDL2_image.framework/Versions/A/Headers
+LIBFT = libft	
 
 INC =	-I inc \
-		-I frameworks/SDL2_image.framework/Versions/A/Headers
+		-I frameworks/SDL2_image.framework/Versions/A/Headers \
+		-I frameworks/SDL2_mixer.framework/Versions/A/Headers
 
 SRC = src
 
@@ -31,12 +30,20 @@ SRC_C = $(addprefix $(SRC)/, main.c \
 							event_manager.c \
 							load_map.c \
 							error.c \
-							cleaners.c)
+							cleaners.c \
+							mini_map.c \
+							engine.c \
+							ray_caster.c \
+							move.c \
+							turn_camera.c \
+							load_texture.c \
+							play_music.c)
 
 FRAMEWORKS = -F frameworks \
 			-rpath frameworks \
 			-framework SDL2 \
-			-framework SDL2_image
+			-framework SDL2_image \
+			-framework SDL2_mixer
 
 SRC_O = $(SRC_C:.c=.o)
 
@@ -47,7 +54,7 @@ all: $(NAME)
 libft/libft.a:
 	@make -C $(LIBFT)
 
-$(NAME): libft/libft.a $(SRC_O)
+$(NAME): libft/libft.a $(SRC_O) inc/wolf3d.h
 	@echo "[Compiling] $@"
 	@$(CC) $(FLAGS) $(INC) -o $(NAME) $(SRC_O) -L $(LIBFT) -lft $(FRAMEWORKS) -lpthread
 	@echo "\033[92m[$(NAME) Has been created]\033[0m\nrun ./$@ <map>"

@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-void			show_valid_map(void)
+static void			show_valid_map(void)
 {
 	ft_putendl("Valid map looks like this:");
 	ft_putendl("1 1 1 1 1");
@@ -22,31 +22,45 @@ void			show_valid_map(void)
 	ft_putendl("1 1 1 1 1");
 }
 
-void			error(t_uint flag)
+static void			error_2(t_uint flag)
 {
-	if (flag == 0)
-		ft_putendl(NO_FILE);
-	else if (flag == 1)
-	{
-		ft_putendl(NO_VALID_MAP);
-		show_valid_map();
-	}
-	else if (flag == 2)
-	{
-		ft_putendl(WRONG_LINE_LENGTH);
-		show_valid_map();
-	}
-	else if (flag == 3)
-		ft_putendl(USAGE);
-	else if (flag == 4)
-	{
-		ft_putendl(WRONG_MAP_VALUE);
-		show_valid_map();
-	}
-	else if (flag == 5)
+	if (flag == 5)
 	{
 		ft_putendl(NO_ZEROS_ON_MAP);
 		show_valid_map();
 	}
+	else if (flag == 6)
+	{
+		ft_putendl(TOO_BIG_MAP);
+		show_valid_map();
+	}
+}
+
+void				error(t_uint flag)
+{
+	if (flag < 4)
+	{
+		if (flag == 0)
+			ft_putendl(NO_FILE);
+		else if (flag == 1)
+		{
+			ft_putendl(NO_VALID_MAP);
+			show_valid_map();
+		}
+		else if (flag == 2)
+		{
+			ft_putendl(WRONG_LINE_LENGTH);
+			show_valid_map();
+		}
+		else if (flag == 3)
+			ft_putendl(USAGE);
+		else if (flag == 4)
+		{
+			ft_putendl(WRONG_MAP_VALUE);
+			show_valid_map();
+		}
+	}
+	else
+		error_2(flag);
 	exit(0);
 }
