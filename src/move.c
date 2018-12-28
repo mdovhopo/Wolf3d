@@ -72,7 +72,7 @@ void	move_left(t_frame *f)
 		f->posy += -f->dirx * f->move_speed;
 }
 
-void	move_camera(t_frame *f, int x, int y)
+void	move_camera(t_frame *f, int x)
 {
 	double	rot_angle;
 	double	old_dir;

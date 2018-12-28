@@ -65,7 +65,7 @@ void		key_down_event(t_frame *f, int key_code)
 void		mouse_motion_event(t_frame *f, int x, int y)
 {
 	infinite_rotate(x, y);
-	move_camera(f, x, y);
+	move_camera(f, x);
 }
 
 void		event_manager(SDL_Event event, t_frame *f)

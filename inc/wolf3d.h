@@ -121,7 +121,7 @@ void			move_up(t_frame *f);
 void			move_back(t_frame *f);
 void			move_right(t_frame *f);
 void			move_left(t_frame *f);
-void			move_camera(t_frame *f, int x, int y);
+void			move_camera(t_frame *f, int x);
 void			turn_left(t_frame *f);
 void			turn_right(t_frame *f);
 

@@ -6,7 +6,7 @@
 #    By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/09 12:58:19 by mdovhopo          #+#    #+#              #
-#    Updated: 2018/12/09 12:58:20 by mdovhopo         ###   ########.fr        #
+#    Updated: 2018/12/28 19:20:51 by mdovhopo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,7 @@ INC =	-I inc \
 
 SRC = src
 
-f = -Wall -Wextra -Werror
-
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror 
 
 SRC_C = $(addprefix $(SRC)/, main.c \
 							line.c \

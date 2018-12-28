@@ -84,7 +84,6 @@ static void		draw_image(double dist_to_wall, t_frame *f, int x)
 {
 	t_intvec2	draw;
 	t_vec2		line_height_and_wall;
-	int			color;
 
 	line_height_and_wall.x = (int)(HEIGHT / dist_to_wall);
 	draw.x = -line_height_and_wall.x / 2 + HEIGHT / 2;
