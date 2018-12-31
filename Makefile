@@ -12,17 +12,26 @@
 
 NAME = wolf3d
 
-LIBFT = libft	
+LIBFT_DIR = libft
+
+SRC_DIR = src
 
 INC =	-I inc \
 		-I frameworks/SDL2_image.framework/Versions/A/Headers \
-		-I frameworks/SDL2_mixer.framework/Versions/A/Headers
+		-I frameworks/SDL2_mixer.framework/Versions/A/Headers \
+		-I frameworks/SDL2.framework/Versions/A/Headers \
+		-I frameworks/SDL2_ttf.framework/Versions/A/Headers 
 
-SRC = src
+FRAMEWORKS = -F frameworks \
+			-rpath frameworks \
+			-framework SDL2 \
+			-framework SDL2_image \
+			-framework SDL2_mixer \
+			-framework SDL2_ttf 
 
 FLAGS = -Wall -Wextra -Werror 
 
-SRC_C = $(addprefix $(SRC)/, main.c \
+SRC_C = $(addprefix $(SRC_DIR)/, main.c \
 							line.c \
 							setters.c \
 							event_manager.c \
@@ -37,11 +46,6 @@ SRC_C = $(addprefix $(SRC)/, main.c \
 							load_texture.c \
 							play_music.c)
 
-FRAMEWORKS = -F frameworks \
-			-rpath frameworks \
-			-framework SDL2 \
-			-framework SDL2_image \
-			-framework SDL2_mixer
 
 SRC_O = $(SRC_C:.c=.o)
 
@@ -50,14 +54,14 @@ CC = clang
 all: $(NAME)
 
 libft/libft.a:
-	@make -C $(LIBFT)
+	@make -C $(LIBFT_DIR)
 
 $(NAME): libft/libft.a $(SRC_O) inc/wolf3d.h
 	@echo "[Compiling] $@"
-	@$(CC) $(FLAGS) $(INC) -o $(NAME) $(SRC_O) -L $(LIBFT) -lft $(FRAMEWORKS) -lpthread
+	@$(CC) $(FLAGS) -o $(NAME) $(SRC_O) -L $(LIBFT_DIR) -lft $(FRAMEWORKS)
 	@echo "\033[92m[$(NAME) Has been created]\033[0m\nrun ./$@ <map>"
 
-$(SRC)/%.o: $(SRC)/%.c 
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c 
 	@echo "[Compiling] $@"
 	@$(CC) $(FLAGS) $(INC) -I . -c $< -o $@
 
@@ -65,7 +69,7 @@ clean:
 	@/bin/rm -f $(SRC_O)
 
 lclean:
-	@make -C $(LIBFT) fclean
+	@make -C $(LIBFT_DIR) fclean
 	@make fclean
 
 fclean: clean

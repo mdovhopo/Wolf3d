@@ -13,7 +13,7 @@
 #include "wolf3d.h"
 
 static void		free_everything(t_frame *f,
-								SDL_Window *window, Mix_Music *music)
+						SDL_Window *window, Mix_Music *music)
 {
 	del_textures(f);
 	Mix_FreeMusic(music);
@@ -23,7 +23,7 @@ static void		free_everything(t_frame *f,
 	SDL_Quit();
 }
 
-static int		catch_event(t_frame *f, int fps)
+static int		catch_event(t_frame *f)
 {
 	SDL_Event event;
 
@@ -31,13 +31,6 @@ static int		catch_event(t_frame *f, int fps)
 	{
 		if (QUIT_EVENT)
 			return (0);
-		else if (SDL_SCANCODE_SPACE == event.key.keysym.scancode &&
-				SDL_KEYDOWN == event.type)
-		{
-			ft_putstr("FPS: ");
-			ft_putnbr(fps);
-			write(1, "\n", 1);
-		}
 		event_manager(event, f);
 	}
 	return (1);
@@ -47,30 +40,41 @@ static int		catch_event(t_frame *f, int fps)
 ** clock.x - start clok clock.y - clock.y
 */
 
+static void		frame_update_loop(SDL_Window *window, t_frame *f)
+{
+	t_vec2			clock;
+	int				curr_fps;
+
+	curr_fps = 0;
+	while (catch_event(f))
+	{
+		clock.x = SDL_GetTicks();
+		engine(f);
+		SDL_UpdateWindowSurface(window);
+		clock.y = SDL_GetTicks() - clock.x;
+		if (clock.y != 0)
+			curr_fps = 1000 / clock.y;
+		if (curr_fps < 100)
+		{
+			ft_putstr("FPS: ");
+			ft_putnbr(curr_fps);
+			write(1, "\n", 1);
+		}
+	}
+}
+
 int				main(int argc, char *argv[])
 {
 	SDL_Window		*window;
 	Mix_Music		*music;
 	t_frame			*f;
-	t_vec2			clock;
-	int				curr_fps;
 
 	if (argc != 2)
 		error(3);
-	curr_fps = 0;
 	music = NULL;
 	play_music(music);
 	f = setup_frame(argv[1], &window);
-	while (catch_event(f, curr_fps))
-	{
-		clock.x = SDL_GetTicks();
-		if (f->scene == 1)
-			engine(f);
-		SDL_UpdateWindowSurface(window);
-		clock.y = SDL_GetTicks() - clock.x;
-		if (clock.y != 0)
-			curr_fps = 1000 / clock.y;
-	}
+	frame_update_loop(window, f);
 	free_everything(f, window, music);
 	return (0);
 }

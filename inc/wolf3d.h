@@ -13,10 +13,11 @@
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-# include "../libft/libft.h"
+# include "libft/libft.h"
 # include <SDL2/SDL.h>
 # include <SDL_image.h>
 # include <SDL_mixer.h>
+# include <SDL_ttf.h>
 # include <stdio.h>
 # include <stdbool.h>
 # include <math.h>

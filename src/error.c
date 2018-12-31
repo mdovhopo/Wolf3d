@@ -38,7 +38,7 @@ static void			error_2(t_uint flag)
 
 void				error(t_uint flag)
 {
-	if (flag < 4)
+	if (flag < 5)
 	{
 		if (flag == 0)
 			ft_putendl(NO_FILE);

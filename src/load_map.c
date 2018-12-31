@@ -66,15 +66,15 @@ static int			fill_map(char *line, t_frame *f, int y)
 	return (x);
 }
 
-static void			check_borders(t_frame *f)
+static void			check_borders(t_frame *f, int h, int w)
 {
 	int x;
 	int y;
 
 	y = -1;
-	if (f->mapheight > 45 || f->mapwidth > 45)
+	if (h > 45 || h < 2 || w > 45 || w < 2)
 	{
-		free_map(f->map, f->mapheight);
+		free_map(f->map, h);
 		error(6);
 	}
 	while (++y < f->mapheight)
@@ -119,5 +119,5 @@ void				load_map(char *path, t_frame *f)
 		free(line);
 	}
 	close(fd);
-	check_borders(f);
+	check_borders(f, f->mapheight, f->mapwidth);
 }

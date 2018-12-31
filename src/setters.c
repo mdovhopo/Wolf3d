@@ -42,7 +42,7 @@ static void			set_default_pos(t_frame *f)
 
 static void			set_def_values(t_frame *f)
 {
-	f->minimapres = 150 /
+	f->minimapres = (WIDTH > HEIGHT ? HEIGHT / 6 : WIDTH / 6) /
 			(f->mapheight > f->mapwidth ? f->mapwidth : f->mapheight);
 	f->posx = f->defaultspawn_y;
 	f->posy = f->defaultspawn_x;
@@ -55,7 +55,7 @@ static void			set_def_values(t_frame *f)
 	f->move_speed = 0.1;
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
-		ft_putendl("Failed to init SDL");
+		ft_putendl("SDL could not initialize");
 		free_map(f->map, f->mapheight);
 		del_textures(f);
 		exit(0);
@@ -73,8 +73,8 @@ static void			set_window(SDL_Window **window, t_frame *f)
 				SDL_WINDOWPOS_UNDEFINED,
 				WIDTH, HEIGHT,
 				SDL_WINDOW_SHOWN);
-	surface = SDL_GetWindowSurface(*window);
 	SDL_WarpMouseInWindow(*window, WIDTH / 2, HEIGHT / 2);
+	surface = SDL_GetWindowSurface(*window);
 	f->pixels = surface->pixels;
 }
 
