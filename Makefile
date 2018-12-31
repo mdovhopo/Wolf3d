@@ -20,14 +20,12 @@ INC =	-I inc \
 		-I frameworks/SDL2_image.framework/Versions/A/Headers \
 		-I frameworks/SDL2_mixer.framework/Versions/A/Headers \
 		-I frameworks/SDL2.framework/Versions/A/Headers \
-		-I frameworks/SDL2_ttf.framework/Versions/A/Headers 
 
 FRAMEWORKS = -F frameworks \
 			-rpath frameworks \
 			-framework SDL2 \
 			-framework SDL2_image \
 			-framework SDL2_mixer \
-			-framework SDL2_ttf 
 
 FLAGS = -Wall -Wextra -Werror 
 
