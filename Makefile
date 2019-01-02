@@ -17,6 +17,7 @@ LIBFT_DIR = libft
 SRC_DIR = src
 
 INC =	-I inc \
+		-I libft \
 		-I frameworks/SDL2_image.framework/Versions/A/Headers \
 		-I frameworks/SDL2_mixer.framework/Versions/A/Headers \
 		-I frameworks/SDL2.framework/Versions/A/Headers \
@@ -27,7 +28,7 @@ FRAMEWORKS = -F frameworks \
 			-framework SDL2_image \
 			-framework SDL2_mixer \
 
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror -O2
 
 SRC_C = $(addprefix $(SRC_DIR)/, main.c \
 							line.c \
@@ -42,7 +43,8 @@ SRC_C = $(addprefix $(SRC_DIR)/, main.c \
 							move.c \
 							turn_camera.c \
 							load_texture.c \
-							play_music.c)
+							play_music.c \
+							infinite_rotate.c)
 
 
 SRC_O = $(SRC_C:.c=.o)
@@ -62,6 +64,9 @@ $(NAME): libft/libft.a $(SRC_O) inc/wolf3d.h
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c 
 	@echo "[Compiling] $@"
 	@$(CC) $(FLAGS) $(INC) -I . -c $< -o $@
+
+test:
+	@$(CC) $(INC) test_renderer.c $(FRAMEWORKS)
 
 clean:	
 	@/bin/rm -f $(SRC_O)

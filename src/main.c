@@ -23,7 +23,7 @@ static void		free_everything(t_frame *f,
 	SDL_Quit();
 }
 
-static int		catch_event(t_frame *f)
+static int		catch_event(t_frame *f, int *if_event)
 {
 	SDL_Event event;
 
@@ -32,6 +32,7 @@ static int		catch_event(t_frame *f)
 		if (QUIT_EVENT)
 			return (0);
 		event_manager(event, f);
+		*if_event = 1;
 	}
 	return (1);
 }
@@ -40,26 +41,35 @@ static int		catch_event(t_frame *f)
 ** clock.x - start clok clock.y - clock.y
 */
 
+static void		show_fps(int fps)
+{
+	ft_putstr("FPS: ");
+	ft_putnbr(fps);
+	write(1, "\n", 1);
+}
+
 static void		frame_update_loop(SDL_Window *window, t_frame *f)
 {
 	t_vec2			clock;
 	int				curr_fps;
+	int				if_event;
 
 	curr_fps = 0;
-	while (catch_event(f))
+	if_event = 1;
+	while (catch_event(f, &if_event))
 	{
 		clock.x = SDL_GetTicks();
-		engine(f);
-		SDL_UpdateWindowSurface(window);
+		if (if_event)
+		{
+			engine(f);
+			SDL_UpdateWindowSurface(window);
+			if_event = 0;
+		}
 		clock.y = SDL_GetTicks() - clock.x;
 		if (clock.y != 0)
 			curr_fps = 1000 / clock.y;
-		if (curr_fps < 100)
-		{
-			ft_putstr("FPS: ");
-			ft_putnbr(curr_fps);
-			write(1, "\n", 1);
-		}
+		if (f->fps_counter)
+			show_fps(curr_fps);
 	}
 }
 

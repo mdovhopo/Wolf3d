@@ -13,7 +13,7 @@
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-# include "libft/libft.h"
+# include "libft.h"
 # include <SDL2/SDL.h>
 # include <SDL_image.h>
 # include <SDL_mixer.h>
@@ -75,7 +75,7 @@ typedef struct	s_frame
 	char		*pixels;
 	int			side;
 	double		move_speed;
-	int			scene;
+	int			fps_counter;
 }				t_frame;
 
 /*
@@ -120,6 +120,7 @@ void			move_left(t_frame *f);
 void			move_camera(t_frame *f, int x);
 void			turn_left(t_frame *f);
 void			turn_right(t_frame *f);
+void			infinite_rotate(int x, int y);
 
 /*
 ** error managment

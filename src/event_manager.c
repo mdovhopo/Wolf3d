@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-static void	reset_values(t_frame *f)
+static void		reset_values(t_frame *f)
 {
 	f->posx = f->defaultspawn_y;
 	f->posy = f->defaultspawn_x;
@@ -23,32 +23,19 @@ static void	reset_values(t_frame *f)
 	f->move_speed = 0.1;
 }
 
-static void	infinite_rotate(int x, int y)
+static void		fps_on_off(int *fps_counter)
 {
-	int left_border;
-	int right_border;
-	int upper_border;
-	int lower_border;
-
-	upper_border = HEIGHT * 1 / 5;
-	lower_border = HEIGHT * 4 / 5;
-	left_border = WIDTH * 1 / 5;
-	right_border = WIDTH * 4 / 5;
-	if (y >= lower_border)
-		SDL_WarpMouseInWindow(NULL, x, upper_border + 1);
-	else if (y <= upper_border)
-		SDL_WarpMouseInWindow(NULL, x, lower_border - 1);
-	if (x >= right_border)
-		SDL_WarpMouseInWindow(NULL, left_border + 1, y);
-	else if (x <= left_border)
-		SDL_WarpMouseInWindow(NULL, right_border - 1, y);
+	if (*fps_counter == 0)
+		*fps_counter = 1;
+	else
+		*fps_counter = 0;
 }
 
-void		key_down_event(t_frame *f, int key_code)
+static void		key_down_event(t_frame *f, int key_code)
 {
-	if (SDL_SCANCODE_W == key_code)
+	if (SDL_SCANCODE_W == key_code || SDL_SCANCODE_UP == key_code)
 		move_up(f);
-	else if (SDL_SCANCODE_S == key_code)
+	else if (SDL_SCANCODE_S == key_code || SDL_SCANCODE_DOWN == key_code)
 		move_back(f);
 	else if (SDL_SCANCODE_R == key_code)
 		reset_values(f);
@@ -60,15 +47,17 @@ void		key_down_event(t_frame *f, int key_code)
 		turn_left(f);
 	else if (SDL_SCANCODE_RIGHT == key_code)
 		turn_right(f);
+	else if (SDL_SCANCODE_F == key_code)
+		fps_on_off(&(f->fps_counter));
 }
 
-void		mouse_motion_event(t_frame *f, int x, int y)
+static void		mouse_motion_event(t_frame *f, int x, int y)
 {
 	infinite_rotate(x, y);
 	move_camera(f, x);
 }
 
-void		event_manager(SDL_Event event, t_frame *f)
+void			event_manager(SDL_Event event, t_frame *f)
 {
 	int key_code;
 
