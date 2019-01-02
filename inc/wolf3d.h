@@ -17,14 +17,10 @@
 # include <SDL2/SDL.h>
 # include <SDL_image.h>
 # include <SDL_mixer.h>
-# include <stdio.h>
-# include <stdbool.h>
 # include <math.h>
 
 # define WIDTH 1280
 # define HEIGHT 720
-# define INTERFACE_WIDTH 200
-# define INTERFACE_HEIGHT 720
 # define AMOUNT_TEXTURES 8
 # define TEXWIDTH 64
 # define TEXHEIGHT 64

@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   play_music.c                                       :+:      :+:    :+:   */
+/*   ft_map.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/28 18:13:05 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/12/28 18:13:06 by mdovhopo         ###   ########.fr       */
+/*   Created: 2018/12/09 17:08:28 by mdovhopo          #+#    #+#             */
+/*   Updated: 2018/12/09 17:08:29 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "libft.h"
 
-void			play_music(Mix_Music *music)
+/*
+** transforms value s from range a.x - a.y to value
+** (witch returns) to range b.x - b.y
+*/
+
+double	ft_map(double s, t_vec2 a, t_vec2 b)
 {
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		ft_putendl("SDL_mixer could not initialize");
-		exit(0);
-	}
-	if ((music = Mix_LoadMUS("music/main_theme.mp3")) == NULL)
-		error(8);
-	Mix_PlayMusic(music, -1);
+	return (b.x + (s - a.x) * (b.y - b.x) / (a.y - a.x));
 }

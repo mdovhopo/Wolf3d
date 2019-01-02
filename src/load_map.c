@@ -46,7 +46,7 @@ static int			fill_map(char *line, t_frame *f, int y)
 	{
 		if (x > f->mapwidth)
 		{
-			free_map(f->map, y);
+			free_map(f->map, y + 1);
 			error(2);
 		}
 		while (*line == ' ')

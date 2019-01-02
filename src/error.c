@@ -34,6 +34,10 @@ static void			error_2(t_uint flag)
 		ft_putendl(TOO_BIG_MAP);
 		show_valid_map();
 	}
+	else if (flag == 7)
+		ft_putstr("\nImg not founded... \n");
+	else if (flag == 8)
+		ft_putendl("Music file not found");
 }
 
 void				error(t_uint flag)

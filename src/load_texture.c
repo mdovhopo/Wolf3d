@@ -19,8 +19,7 @@ static SDL_Surface		*load_image(char *path)
 	if ((img = IMG_Load(path)) == NULL)
 	{
 		ft_putstr(path);
-		ft_putstr("\nImg not founded... \n");
-		exit(0);
+		error(7);
 	}
 	return (img);
 }

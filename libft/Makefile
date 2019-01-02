@@ -82,6 +82,8 @@ SRC_C =ft_memset.c \
 	   ft_show_binary.c \
 	   ft_atoi16.c \
 	   get_next_line.c \
+	   ft_map.c \
+	   ft_rgb.c \
 
 SRC_O = $(SRC_C:.c=.o)
 

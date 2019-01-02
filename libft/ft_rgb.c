@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   play_music.c                                       :+:      :+:    :+:   */
+/*   ft_rgb.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/28 18:13:05 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/12/28 18:13:06 by mdovhopo         ###   ########.fr       */
+/*   Created: 2018/12/23 18:16:15 by mdovhopo          #+#    #+#             */
+/*   Updated: 2018/12/23 18:16:16 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+/*
+** returns color code from passing r g b values
+*/
 
-void			play_music(Mix_Music *music)
+int		ft_rgb(int r, int g, int b)
 {
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		ft_putendl("SDL_mixer could not initialize");
-		exit(0);
-	}
-	if ((music = Mix_LoadMUS("music/main_theme.mp3")) == NULL)
-		error(8);
-	Mix_PlayMusic(music, -1);
+	return (r * 65536 + g * 256 + b);
 }
