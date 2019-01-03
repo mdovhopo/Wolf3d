@@ -113,7 +113,7 @@ void			play_music(Mix_Music *music);
 ** moving / rotation camera
 */
 
-void			move_up(t_frame *f);
+void			move_forward(t_frame *f);
 void			move_back(t_frame *f);
 void			move_right(t_frame *f);
 void			move_left(t_frame *f);

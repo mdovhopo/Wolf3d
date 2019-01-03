@@ -31,7 +31,6 @@ FRAMEWORKS = -F frameworks \
 FLAGS = -Wall -Wextra -Werror -O2
 
 SRC_C = $(addprefix $(SRC_DIR)/, main.c \
-							line.c \
 							setters.c \
 							event_manager.c \
 							load_map.c \

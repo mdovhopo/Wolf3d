@@ -38,21 +38,26 @@ static int		catch_event(t_frame *f, int *if_event)
 }
 
 /*
-** clock.x - start clok clock.y - clock.y
+** clock.x - start frame clock.y next frame
 */
 
-static void		show_fps(int fps)
+static void		show_fps(t_vec2 clock, int flag, int *curr_fps)
 {
-	ft_putstr("FPS: ");
-	ft_putnbr(fps);
-	write(1, "\n", 1);
+	if (flag)
+	{
+		if (clock.y != 0)
+			*curr_fps = 1000 / clock.y;
+		ft_putstr("FPS: ");
+		ft_putnbr(*curr_fps);
+		write(1, "\n", 1);
+	}
 }
 
 static void		frame_update_loop(SDL_Window *window, t_frame *f)
 {
 	t_vec2			clock;
-	int				curr_fps;
 	int				if_event;
+	int				curr_fps;
 
 	curr_fps = 0;
 	if_event = 1;
@@ -66,10 +71,7 @@ static void		frame_update_loop(SDL_Window *window, t_frame *f)
 			if_event = 0;
 		}
 		clock.y = SDL_GetTicks() - clock.x;
-		if (clock.y != 0)
-			curr_fps = 1000 / clock.y;
-		if (f->fps_counter)
-			show_fps(curr_fps);
+		show_fps(clock, f->fps_counter, &curr_fps);
 	}
 }
 

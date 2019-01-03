@@ -97,6 +97,6 @@ t_frame				*setup_frame(char *map_path,
 	f->texture = load_texture();
 	set_def_values(f);
 	set_window(window, f);
-	f->fps_counter = 1;
+	f->fps_counter = 0;
 	return (f);
 }

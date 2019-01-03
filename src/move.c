@@ -12,18 +12,28 @@
 
 #include "wolf3d.h"
 
-void	move_up(t_frame *f)
+void	move_forward(t_frame *f)
 {
 	double	movex;
 	double	movey;
+	double	wall_x;
+	double	wall_y;
 
 	movex = f->posx + f->dirx * f->move_speed;
 	movey = f->posy + f->diry * f->move_speed;
+	if (f->posx < movex)
+		wall_x = 0.2;
+	else
+		wall_x = -0.2;
+	if (f->posy < movey)
+		wall_y = 0.2;
+	else
+		wall_y = -0.2;
 	if (movex < f->mapheight - 1.2 && movex > 1.2 &&
-					(f->map)[(int)(movex)][(int)(f->posy)] == 0)
+					(f->map)[(int)(movex + wall_x)][(int)(f->posy)] == 0)
 		f->posx += f->dirx * f->move_speed;
 	if (movey < f->mapwidth - 1.2 && movey > 1.2 &&
-					(f->map)[(int)(f->posx)][(int)(movey)] == 0)
+					(f->map)[(int)(f->posx)][(int)(movey + wall_y)] == 0)
 		f->posy += f->diry * f->move_speed;
 }
 
@@ -31,18 +41,28 @@ void	move_back(t_frame *f)
 {
 	double	movex;
 	double	movey;
+	double	wall_x;
+	double	wall_y;
 
 	movex = f->posx - f->dirx * f->move_speed;
 	movey = f->posy - f->diry * f->move_speed;
+	if (f->posx < movex)
+		wall_x = 0.2;
+	else
+		wall_x = -0.2;
+	if (f->posy < movey)
+		wall_y = 0.2;
+	else
+		wall_y = -0.2;
 	if (movex < f->mapheight - 1.2 && movex > 1.2 &&
-					(f->map)[(int)(movex)][(int)(f->posy)] == 0)
+					(f->map)[(int)(movex + wall_x)][(int)(f->posy)] == 0)
 		f->posx -= f->dirx * f->move_speed;
 	if (movey < f->mapwidth - 1.2 && movey > 1.2 &&
-					(f->map)[(int)(f->posx)][(int)(movey)] == 0)
+					(f->map)[(int)(f->posx)][(int)(movey + wall_y)] == 0)
 		f->posy -= f->diry * f->move_speed;
 }
 
-void	move_right(t_frame *f)
+void	move_left(t_frame *f)
 {
 	double	movex;
 	double	movey;
@@ -50,14 +70,14 @@ void	move_right(t_frame *f)
 	movex = f->posx + -f->diry * f->move_speed;
 	movey = f->posy + f->dirx * f->move_speed;
 	if (movex < f->mapheight - 1.2 && movex > 1.2 &&
-					(f->map)[(int)(movex)][(int)(f->posy)] == 0)
+					(f->map)[(int)(movey)][(int)(f->posy)] == 0)
 		f->posx += -f->diry * f->move_speed;
 	if (movey < f->mapwidth - 1.2 && movey > 1.2 &&
 					(f->map)[(int)(f->posx)][(int)(movey)] == 0)
 		f->posy += f->dirx * f->move_speed;
 }
 
-void	move_left(t_frame *f)
+void	move_right(t_frame *f)
 {
 	double	movex;
 	double	movey;
