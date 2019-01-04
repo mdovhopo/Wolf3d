@@ -61,11 +61,8 @@ $(NAME): libft/libft.a $(SRC_O) inc/wolf3d.h
 	@echo "\033[92m[$(NAME) Has been created]\033[0m\nrun ./$@ <map>"
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c 
-	@echo "[Compiling] $@"
+	@echo "[Compiling] $(@:.o=.c)"
 	@$(CC) $(FLAGS) $(INC) -I . -c $< -o $@
-
-test:
-	@$(CC) $(INC) test_renderer.c $(FRAMEWORKS)
 
 clean:	
 	@/bin/rm -f $(SRC_O)

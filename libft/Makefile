@@ -96,7 +96,7 @@ $(NAME): $(SRC_O)
 	@echo "\033[92m[$(NAME) Has been created.]\033[0m"
 
 %.o: %.c
-	@echo "[Compiling] $@"
+	@echo "[Compiling] $(@:.o=.c)"
 	@$(CC) $(FLAGS) -o $@ -c $<
 
 clean:
