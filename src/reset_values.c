@@ -21,5 +21,4 @@ void		reset_values(t_frame *f)
 	f->dirx = 0.697848;
 	f->diry = 0.716246;
 	f->move_speed = 0.1;
-	f->scene = MENU_SCENE;
 }
