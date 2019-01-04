@@ -40,5 +40,5 @@ void		free_everything(t_frame *f,
 	SDL_DestroyWindow(window);
 	free(f);
 	Mix_Quit();
-	SDL_Quit();
+	TTF_Quit();
 }

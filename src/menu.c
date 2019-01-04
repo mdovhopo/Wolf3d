@@ -34,7 +34,7 @@ void			set_menu(SDL_Renderer *ren, SDL_Texture **tex)
 	}
 	if ((font = TTF_OpenFont("fonts/OpenSans-BoldItalic.ttf", 24)) == NULL)
 	{
-		ft_putendl("No font founded\n");
+		ft_putendl("No font founded");
 		TTF_Quit();
 		return ;
 	}
@@ -43,10 +43,4 @@ void			set_menu(SDL_Renderer *ren, SDL_Texture **tex)
 	*tex = SDL_CreateTextureFromSurface(ren, s);
 	SDL_FreeSurface(s);
 	TTF_CloseFont(font);
-}
-
-void			destroy_menu(SDL_Texture *tex)
-{
-	SDL_DestroyTexture(tex);
-	TTF_Quit();
 }

@@ -76,18 +76,20 @@ void			frame_update_loop(SDL_Renderer *ren, SDL_Texture *game_tex,
 	curr_fps = 0;
 	if_event = 1;
 	set_menu(ren, &menu_tex);
-	if (menu_tex == NULL)
-		return ;
-	while (catch_event(f, &if_event))
+	if (menu_tex != NULL)
 	{
-		clock.x = SDL_GetTicks();
-		if (if_event)
+		while (catch_event(f, &if_event))
 		{
-			update_renderer(ren, f, game_tex, menu_tex);
-			if_event = 0;
+			clock.x = SDL_GetTicks();
+			if (if_event)
+			{
+				update_renderer(ren, f, game_tex, menu_tex);
+				if_event = 0;
+			}
+			clock.y = SDL_GetTicks() - clock.x;
+			show_fps(clock, f->fps_counter, &curr_fps);
 		}
-		clock.y = SDL_GetTicks() - clock.x;
-		show_fps(clock, f->fps_counter, &curr_fps);
+		SDL_DestroyTexture(menu_tex);
 	}
-	destroy_menu(menu_tex);
+	SDL_DestroyTexture(game_tex);
 }
