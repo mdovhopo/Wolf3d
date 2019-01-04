@@ -26,6 +26,5 @@ int				main(int argc, char *argv[])
 	f = setup_frame(argv[1], &window, &ren, &tex);
 	frame_update_loop(ren, tex, f);
 	free_everything(f, window, music, ren);
-	system("leaks -q wolf3d");
 	return (0);
 }

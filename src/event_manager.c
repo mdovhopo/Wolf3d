@@ -76,8 +76,7 @@ void			event_manager(SDL_Event event, t_frame *f)
 	}
 	else if (f->scene == MENU_SCENE)
 	{
-		if (SDL_KEYDOWN == event.type &&
-			SDL_SCANCODE_SPACE == key_code)
+		if (SDL_KEYDOWN == event.type)
 			change_scene(&(f->scene));
 	}
 }
