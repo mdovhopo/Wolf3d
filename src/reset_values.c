@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   reset_values.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdovhopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/25 16:36:43 by mdovhopo          #+#    #+#             */
-/*   Updated: 2018/12/25 16:36:44 by mdovhopo         ###   ########.fr       */
+/*   Created: 2019/01/04 15:55:54 by mdovhopo          #+#    #+#             */
+/*   Updated: 2019/01/04 15:55:55 by mdovhopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-int				main(int argc, char *argv[])
+void		reset_values(t_frame *f)
 {
-	SDL_Window		*window;
-	SDL_Renderer	*ren;
-	SDL_Texture		*tex;
-	Mix_Music		*music;
-	t_frame			*f;
-
-	if (argc != 2)
-		error(3);
-	play_music((music = NULL));
-	f = setup_frame(argv[1], &window, &ren, &tex);
-	frame_update_loop(ren, tex, f);
-	free_everything(f, window, music, ren);
-	system("leaks -q wolf3d");
-	return (0);
+	f->posx = f->defaultspawn_y;
+	f->posy = f->defaultspawn_x;
+	f->planex = 0.472722;
+	f->planey = -0.460580;
+	f->dirx = 0.697848;
+	f->diry = 0.716246;
+	f->move_speed = 0.1;
+	f->scene = MENU_SCENE;
 }

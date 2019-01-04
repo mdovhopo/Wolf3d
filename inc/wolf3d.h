@@ -17,6 +17,7 @@
 # include <SDL2/SDL.h>
 # include <SDL_image.h>
 # include <SDL_mixer.h>
+# include <SDL_ttf.h>
 # include <math.h>
 
 # define WIDTH 1280
@@ -48,6 +49,13 @@
 # define ESCAPE_PRESSED SDL_SCANCODE_ESCAPE == event.key.keysym.scancode
 # define QUIT_EVENT (TYPE_RED_CROSS) || (TYPE_ESC && ESCAPE_PRESSED)
 
+/*
+** game scenes defines
+*/
+
+# define GAME_SCENE 42
+# define MENU_SCENE -42
+
 typedef struct	s_frame
 {
 	int			color;
@@ -76,6 +84,7 @@ typedef struct	s_frame
 	int			side;
 	double		move_speed;
 	int			fps_counter;
+	int			scene;
 }				t_frame;
 
 /*
@@ -85,12 +94,15 @@ typedef struct	s_frame
 void			mini_map(t_frame *f);
 void			engine(t_frame *f);
 int				ray_caster(t_frame *f, int *step_x, int *step_y);
+void			frame_update_loop(SDL_Renderer *ren, SDL_Texture *tex,
+														t_frame *f);
 
 /*
 ** listener
 */
 
 void			event_manager(SDL_Event event, t_frame *frame);
+void			reset_values(t_frame *f);
 
 /*
 ** junk cleaners
@@ -98,15 +110,19 @@ void			event_manager(SDL_Event event, t_frame *frame);
 
 void			del_textures(t_frame *f);
 void			free_map(int **map, int i);
+void			free_everything(t_frame *f,
+			SDL_Window *window, Mix_Music *music, SDL_Renderer *ren);
+void			destroy_menu();
 
 /*
 ** setters
 */
 
 t_frame			*setup_frame(char *map_path,
-				SDL_Window **window);
+	SDL_Window **window, SDL_Renderer **renderer, SDL_Texture **tex);
 void			load_map(char *path, t_frame *f);
 SDL_Surface		**load_texture(void);
+void			set_menu(SDL_Renderer *ren, SDL_Texture **tex);
 void			play_music(Mix_Music *music);
 
 /*

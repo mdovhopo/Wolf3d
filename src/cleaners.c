@@ -28,3 +28,17 @@ void		del_textures(t_frame *f)
 		SDL_FreeSurface(f->texture[i]);
 	free(f->texture);
 }
+
+void		free_everything(t_frame *f,
+		SDL_Window *window, Mix_Music *music, SDL_Renderer *ren)
+{
+	del_textures(f);
+	Mix_FreeMusic(music);
+	free_map(f->map, f->mapheight);
+	free(f->pixels);
+	SDL_DestroyRenderer(ren);
+	SDL_DestroyWindow(window);
+	free(f);
+	Mix_Quit();
+	SDL_Quit();
+}

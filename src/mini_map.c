@@ -12,21 +12,21 @@
 
 #include "wolf3d.h"
 
-void	rect(char *pix, t_intvec2 pos, t_frame *f, int color)
+static void	rect(char *pix, t_intvec2 pos, t_frame *f, int color)
 {
-	int x1;
-	int y1;
+	int x;
+	int y;
 
-	y1 = -1;
-	while (++y1 < f->minimapres)
+	y = -1;
+	while (++y < f->minimapres)
 	{
-		x1 = -1;
-		while (++x1 < f->minimapres)
-			((int *)pix)[(pos.y + y1) * WIDTH + (pos.x + x1)] = color;
+		x = -1;
+		while (++x < f->minimapres)
+			((int *)pix)[(pos.y + y) * WIDTH + (pos.x + x)] = color;
 	}
 }
 
-void	mini_map(t_frame *f)
+void		mini_map(t_frame *f)
 {
 	int x;
 	int y;

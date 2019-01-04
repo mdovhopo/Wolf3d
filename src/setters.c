@@ -61,25 +61,29 @@ static void			set_def_values(t_frame *f)
 		exit(0);
 	}
 	atexit(SDL_Quit);
-	SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_ENABLE);
 }
 
-static void			set_window(SDL_Window **window, t_frame *f)
+static void			set_window(SDL_Window **window, SDL_Renderer **ren,
+					SDL_Texture **tex, t_frame *f)
 {
-	SDL_Surface		*surface;
+	SDL_Surface		*sur;
 
 	*window = SDL_CreateWindow("Wolf3D",
 				SDL_WINDOWPOS_UNDEFINED,
 				SDL_WINDOWPOS_UNDEFINED,
 				WIDTH, HEIGHT,
 				SDL_WINDOW_SHOWN);
+	*ren = SDL_CreateRenderer(*window, -1, 0);
+	sur = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0, 0, 0, 0);
+	*tex = SDL_CreateTextureFromSurface(*ren, sur);
+	SDL_FreeSurface(sur);
 	SDL_WarpMouseInWindow(*window, WIDTH / 2, HEIGHT / 2);
-	surface = SDL_GetWindowSurface(*window);
-	f->pixels = surface->pixels;
+	f->pixels = (char *)ft_memalloc(sizeof(int *) * WIDTH * HEIGHT);
 }
 
 t_frame				*setup_frame(char *map_path,
-				SDL_Window **window)
+	SDL_Window **window, SDL_Renderer **ren, SDL_Texture **tex)
 {
 	t_frame	*f;
 
@@ -96,7 +100,8 @@ t_frame				*setup_frame(char *map_path,
 	}
 	f->texture = load_texture();
 	set_def_values(f);
-	set_window(window, f);
+	set_window(window, ren, tex, f);
 	f->fps_counter = 0;
+	f->scene = MENU_SCENE;
 	return (f);
 }

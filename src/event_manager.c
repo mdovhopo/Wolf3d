@@ -12,23 +12,26 @@
 
 #include "wolf3d.h"
 
-static void		reset_values(t_frame *f)
-{
-	f->posx = f->defaultspawn_y;
-	f->posy = f->defaultspawn_x;
-	f->planex = 0.472722;
-	f->planey = -0.460580;
-	f->dirx = 0.697848;
-	f->diry = 0.716246;
-	f->move_speed = 0.1;
-}
-
 static void		fps_on_off(int *fps_counter)
 {
 	if (*fps_counter == 0)
 		*fps_counter = 1;
 	else
 		*fps_counter = 0;
+}
+
+static void		change_scene(int *scene)
+{
+	if (*scene == MENU_SCENE)
+	{
+		SDL_ShowCursor(SDL_DISABLE);
+		*scene = GAME_SCENE;
+	}
+	else
+	{
+		SDL_ShowCursor(SDL_ENABLE);
+		*scene = MENU_SCENE;
+	}
 }
 
 static void		key_down_event(t_frame *f, int key_code)
@@ -49,6 +52,8 @@ static void		key_down_event(t_frame *f, int key_code)
 		turn_right(f);
 	else if (SDL_SCANCODE_F == key_code)
 		fps_on_off(&(f->fps_counter));
+	else if (SDL_SCANCODE_SPACE == key_code)
+		change_scene(&(f->scene));
 }
 
 static void		mouse_motion_event(t_frame *f, int x, int y)
@@ -61,10 +66,18 @@ void			event_manager(SDL_Event event, t_frame *f)
 {
 	int key_code;
 
-	printf("%f %f\n", f->posx, f->posy);
 	key_code = event.key.keysym.scancode;
-	if (SDL_KEYDOWN == event.type)
-		key_down_event(f, key_code);
-	else if (SDL_MOUSEMOTION == event.type)
-		mouse_motion_event(f, event.motion.x, event.motion.y);
+	if (f->scene == GAME_SCENE)
+	{
+		if (SDL_KEYDOWN == event.type)
+			key_down_event(f, key_code);
+		else if (SDL_MOUSEMOTION == event.type)
+			mouse_motion_event(f, event.motion.x, event.motion.y);
+	}
+	else if (f->scene == MENU_SCENE)
+	{
+		if (SDL_KEYDOWN == event.type &&
+			SDL_SCANCODE_SPACE == key_code)
+			change_scene(&(f->scene));
+	}
 }

@@ -20,6 +20,7 @@ INC =	-I inc \
 		-I libft \
 		-I frameworks/SDL2_image.framework/Versions/A/Headers \
 		-I frameworks/SDL2_mixer.framework/Versions/A/Headers \
+		-I frameworks/SDL2_ttf.framework/Versions/A/Headers \
 		-I frameworks/SDL2.framework/Versions/A/Headers \
 
 FRAMEWORKS = -F frameworks \
@@ -27,6 +28,7 @@ FRAMEWORKS = -F frameworks \
 			-framework SDL2 \
 			-framework SDL2_image \
 			-framework SDL2_mixer \
+			-framework SDL2_ttf \
 
 FLAGS = -Wall -Wextra -Werror -O2
 
@@ -43,7 +45,10 @@ SRC_C = $(addprefix $(SRC_DIR)/, main.c \
 							turn_camera.c \
 							load_texture.c \
 							play_music.c \
-							infinite_rotate.c)
+							infinite_rotate.c \
+							reset_values.c \
+							frame_update_loop.c \
+							menu.c)
 
 
 SRC_O = $(SRC_C:.c=.o)
